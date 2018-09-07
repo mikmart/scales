@@ -277,121 +277,6 @@ degree_format <- function(accuracy = 1, scale = 1, prefix = "",
   )
 }
 
-#' Format numbers as geographic coordinates
-#' @param axis string specifying the coordinate axis. Either "latitude" or
-#'   "longitude".
-#' @inheritParams degree_format
-#' @seealso [`degree_format()`] that powers these formatters
-#' @export
-coordinate_format <- function(axis = c("latitude", "longitude"),
-                              accuracy = 1, scale = 1, prefix = "",
-                              unit = NULL, sep = "", suffix = NULL,
-                              big.mark = " ", decimal.mark = ".",
-                              trim = TRUE, ...) {
-  axis <- match.arg(axis, c("latitude", "longitude"))
-  units <- switch(axis,
-    latitude  = c("S", "N", "N"),
-    longitude = c("W", "E", "E")
-  )
-
-  function(x) {
-    unit <- units[sign(x) + 2L]
-    degree <- degree_format(
-      accuracy = accuracy,
-      scale = scale,
-      prefix = prefix,
-      unit = unit,
-      sep = sep,
-      big.mark = big.mark,
-      decimal.mark = decimal.mark,
-      trim = trim,
-      ...
-    )
-    degree(abs(x))
-  }
-}
-
-#' @rdname coodrinate_format
-#' @export
-latitude_format <- function(accuracy = 1, scale = 1, prefix = "",
-                            unit = NULL, sep = "",
-                            big.mark = " ", decimal.mark = ".",
-                            trim = TRUE, ...) {
-  coordinate_format(
-    "latitude",
-    accuracy = accuracy,
-    scale = scale,
-    prefix = prefix,
-    unit = unit,
-    sep = sep,
-    big.mark = big.mark,
-    decimal.mark = decimal.mark,
-    trim = trim,
-    ...
-  )
-}
-
-#' @rdname coodrinate_format
-#' @export
-#' @examples
-#' latitude(seq(-20, 20, by = 10))
-latitude <- function(x, accuracy = 1, scale = 1, prefix = "",
-                     unit = NULL, sep = "", suffix = NULL,
-                     big.mark = " ", decimal.mark = ".", trim = TRUE, ...) {
-  latitude_format(
-    accuracy = accuracy,
-    scale = scale,
-    prefix = prefix,
-    unit = unit,
-    sep = sep,
-    big.mark = big.mark,
-    decimal.mark = decimal.mark,
-    trim = trim,
-    ...
-  )(x)
-}
-
-#' @rdname coodrinate_format
-#' @export
-longitude_format <- function(accuracy = 1, scale = 1, prefix = "",
-                             unit = NULL, sep = "", suffix = NULL,
-                             big.mark = " ", decimal.mark = ".",
-                             trim = TRUE, ...) {
-  coordinate_format(
-    "longitude",
-    accuracy = accuracy,
-    scale = scale,
-    prefix = prefix,
-    unit = unit,
-    sep = sep,
-    big.mark = big.mark,
-    decimal.mark = decimal.mark,
-    trim = trim,
-    ...
-  )
-}
-
-#' @rdname coodrinate_format
-#' @export
-#' @examples
-#' longitude(seq(-20, 20, by = 10))
-longitude <- function(x, accuracy = 1, scale = 1, prefix = "",
-                      unit = NULL, sep = "", suffix = NULL,
-                      big.mark = " ", decimal.mark = ".", trim = TRUE, ...) {
-  longitude_format(
-    accuracy = accuracy,
-    scale = scale,
-    prefix = prefix,
-    unit = unit,
-    sep = sep,
-    big.mark = big.mark,
-    decimal.mark = decimal.mark,
-    trim = trim,
-    ...
-  )(x)
-}
-
-
 #' @rdname number_format
 #' @export
 number_si <- function(x, prefix = "", suffix = "", ...) {
@@ -949,4 +834,117 @@ validate_byte_symbol <- function(symbol, symbols, default = "auto") {
   }
 
   symbol
+}
+
+#' Format numbers as geographic coordinates
+#' @param axis String specifying the coordinate axis. Either "latitude" or
+#'   "longitude".
+#' @inheritParams degree_format
+#' @inheritSection degree_format Value
+#' @seealso [`degree_format()`] that powers these formatters
+#' @export
+coordinate_format <- function(axis = c("latitude", "longitude"),
+                              accuracy = 1, scale = 1,
+                              prefix = "", sep = "",
+                              big.mark = " ", decimal.mark = ".",
+                              trim = TRUE, ...) {
+  axis <- match.arg(axis, c("latitude", "longitude"))
+  units <- switch(axis,
+    latitude  = c("S", "N", "N"),
+    longitude = c("W", "E", "E")
+  )
+
+  function(x) {
+    unit <- units[sign(x) + 2L]
+    degree <- degree_format(
+      accuracy = accuracy,
+      scale = scale,
+      prefix = prefix,
+      unit = unit,
+      sep = sep,
+      big.mark = big.mark,
+      decimal.mark = decimal.mark,
+      trim = trim,
+      ...
+    )
+    degree(abs(x))
+  }
+}
+
+#' @rdname coordinate_format
+#' @export
+latitude_format <- function(accuracy = 1, scale = 1,
+                            prefix = "", sep = "",
+                            big.mark = " ", decimal.mark = ".",
+                            trim = TRUE, ...) {
+  coordinate_format(
+    "latitude",
+    accuracy = accuracy,
+    scale = scale,
+    prefix = prefix,
+    unit = unit,
+    sep = sep,
+    big.mark = big.mark,
+    decimal.mark = decimal.mark,
+    trim = trim,
+    ...
+  )
+}
+
+#' @rdname coordinate_format
+#' @export
+#' @examples
+#' latitude(seq(-20, 20, by = 10))
+latitude <- function(x, accuracy = 1, scale = 1, prefix = "", sep = "",
+                     big.mark = " ", decimal.mark = ".", trim = TRUE, ...) {
+  latitude_format(
+    accuracy = accuracy,
+    scale = scale,
+    prefix = prefix,
+    unit = unit,
+    sep = sep,
+    big.mark = big.mark,
+    decimal.mark = decimal.mark,
+    trim = trim,
+    ...
+  )(x)
+}
+
+#' @rdname coordinate_format
+#' @export
+longitude_format <- function(accuracy = 1, scale = 1,
+                             prefix = "", sep = "",
+                             big.mark = " ", decimal.mark = ".",
+                             trim = TRUE, ...) {
+  coordinate_format(
+    "longitude",
+    accuracy = accuracy,
+    scale = scale,
+    prefix = prefix,
+    unit = unit,
+    sep = sep,
+    big.mark = big.mark,
+    decimal.mark = decimal.mark,
+    trim = trim,
+    ...
+  )
+}
+
+#' @rdname coordinate_format
+#' @export
+#' @examples
+#' longitude(seq(-20, 20, by = 10))
+longitude <- function(x, accuracy = 1, scale = 1, prefix = "", sep = "",
+                      big.mark = " ", decimal.mark = ".", trim = TRUE, ...) {
+  longitude_format(
+    accuracy = accuracy,
+    scale = scale,
+    prefix = prefix,
+    unit = unit,
+    sep = sep,
+    big.mark = big.mark,
+    decimal.mark = decimal.mark,
+    trim = trim,
+    ...
+  )(x)
 }
