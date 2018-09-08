@@ -27,12 +27,15 @@ si_powers_of <- function(base) {
 }
 
 #' SI scale factors and unit prefixes
+#' @seealso [`number()`] for formatting numbers
 #' @param x A numeric vector.
-#' @param base A numeric vector of bases whose SI powers shoulbe included.
-#' @return A numeric vector of SI scaling factors.
+#' @param base A numeric vector of bases whose SI powers are included.
+#' @return `si_scale()`: A numeric vector of SI scaling factors.
 #' @export
 #' @examples
-#' si_scale(10^(1:6))
+#' # scaling factors
+#' si_scale(10^(-6:6))
+#' si_scale(10^(-6:6), base = 1000)
 si_scale <- function(x, base = 10) {
   powers <- si_powers_of(base)
 
@@ -45,12 +48,14 @@ si_scale <- function(x, base = 10) {
 
 #' @rdname si_scale
 #' @inheritParams si_scale
-#' @return A character vector of SI unit prefixes.
+#' @return `si_prefix()`: A character vector of SI unit prefixes.
 #' @export
 #' @examples
-#' si_prefix(10^(1:6))
-#' si_prefix(10^(1:6), base = 1000)
-#' si_prefix(10^(1:6), base = c(100, 1000))
+#'
+#' # unit prefixes
+#' si_prefix(10^(-6:6))
+#' si_prefix(10^(-6:6), base = 1000)
+#' si_prefix(10^(-6:6), base = c(100, 1000))
 si_prefix <- function(x, base = 10) {
   powers <- si_powers_of(base)
 
