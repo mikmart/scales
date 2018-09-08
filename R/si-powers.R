@@ -43,7 +43,7 @@ si_scale <- function(x, base = 10) {
   power <- unname(powers)[pmax(i, 1L)]
   power[is.infinite(x) | x == 0] <- 0L
 
-  10^power
+  10^-power
 }
 
 #' @rdname si_scale
