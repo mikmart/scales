@@ -22,6 +22,17 @@ si_powers <- sort(c(
   "y"      = -24L
 ))
 
+si_powers_of <- function(base) {
+  si_powers[rowSums(1 - sign(outer(si_powers, log10(base), `%%`))) > 0]
+}
+
+#' SI scale factors and unit prefixes
+#' @param x A numeric vector.
+#' @param base A numeric vector of bases whose SI powers shoulbe included.
+#' @return A numeric vector of SI scaling factors.
+#' @export
+#' @examples
+#' si_scale(10^(1:6))
 si_scale <- function(x, base = 10) {
   powers <- si_powers_of(base)
 
@@ -32,6 +43,14 @@ si_scale <- function(x, base = 10) {
   10^power
 }
 
+#' @rdname si_scale
+#' @inheritParams si_scale
+#' @return A character vector of SI unit prefixes.
+#' @export
+#' @examples
+#' si_prefix(10^(1:6))
+#' si_prefix(10^(1:6), base = 1000)
+#' si_prefix(10^(1:6), base = c(100, 1000))
 si_prefix <- function(x, base = 10) {
   powers <- si_powers_of(base)
 
@@ -40,8 +59,4 @@ si_prefix <- function(x, base = 10) {
   prefix[is.infinite(x) | x == 0] <- ""
 
   prefix
-}
-
-si_powers_of <- function(base) {
-  si_powers[rowSums(1 - sign(outer(si_powers, log10(base), `%%`))) > 0]
 }
