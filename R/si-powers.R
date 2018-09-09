@@ -56,6 +56,11 @@ si_scale <- function(x, base = 10) {
 #' si_prefix(10^(-6:6))
 #' si_prefix(10^(-6:6), base = 1000)
 #' si_prefix(10^(-6:6), base = c(100, 1000))
+#'
+#' # with number
+#' x <- 10^(-6:6)
+#' suffix <- paste0(" ", si_prefix(x), "m")
+#' number(x, scale = si_scale(x), suffix = suffix)
 si_prefix <- function(x, base = 10) {
   powers <- si_powers_of(base)
 
